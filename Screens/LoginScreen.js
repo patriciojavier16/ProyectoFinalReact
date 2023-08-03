@@ -9,27 +9,22 @@ export default function LoginScreen() {
         <View style={styles.container}>
             <Text style={styles.title}>Login</Text>
             <View style={styles.inputContainer}>
-                <Text style={styles.label}>User Name</Text>
+                <Text style={styles.txt}>Usuario</Text>
                 <TextInput
-                    style={styles.input}
-                    value={username}
-                    onChangeText={(text) => setUsername(text)}
-                    placeholder="Enter your username"
+                    placeholder='Ingrese Usuario'
+                    style={styles.txtInput}
                 />
             </View>
 
             <View style={styles.inputContainer}>
-                <Text style={styles.label}>Password</Text>
+                <Text style={styles.txt}>Password</Text>
                 <TextInput
-                    style={styles.input}
-                    value={password}
-                    onChangeText={(text) => setPassword(text)}
-                    secureTextEntry={true}
-                    placeholder="Enter your password"
+                    placeholder='Ingrese Password'
+                    style={styles.txtInput} secureTextEntry
                 />
             </View>
 
-            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+            <TouchableOpacity style={styles.loginButton}>
                 <Text style={styles.loginButtonText}>Iniciar Sesión</Text>
             </TouchableOpacity>
         </View>
