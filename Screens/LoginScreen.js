@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet,Image, ImageBackground } from 'react-native';
 
-export default function LoginScreen() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+export default function LoginScreen({ navigation }) {
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Login</Text>
+        <ImageBackground style={styles.container}
+            source={require("../assets/images/fondo.jpg")}
+        >
+            <Image source={require('../assets/images/usuario.png')}
+                style={styles.img}
+            />
             <View style={styles.inputContainer}>
                 <Text style={styles.txt}>Usuario</Text>
                 <TextInput
@@ -25,9 +27,11 @@ export default function LoginScreen() {
             </View>
 
             <TouchableOpacity style={styles.loginButton}>
-                <Text style={styles.loginButtonText}>Iniciar Sesión</Text>
+                <Text style={styles.loginButtonText}
+                    onPress={() => navigation.navigate('Registro')}
+                >Iniciar Sesión</Text>
             </TouchableOpacity>
-        </View>
+        </ImageBackground>
     );
 }
 
@@ -73,4 +77,24 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
+
+    txtInput: {
+        borderWidth: 2,
+        borderRadius: 10,
+        width: '80%',
+        height: 40,
+        overflow: 'hidden',
+        alignSelf: 'center',
+        textAlign: 'center',
+        margin: 10
+    },
+    txt: {
+        alignSelf: 'center',
+        fontSize: 20,
+    },
+    img: {
+        width: 75,
+        height: 75,
+        margin: 15
+      },
 });

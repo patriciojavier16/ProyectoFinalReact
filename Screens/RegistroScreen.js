@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
-export default function RegisterScreen() {
+export default function RegisterScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
@@ -11,8 +11,6 @@ export default function RegisterScreen() {
         <Text style={styles.label}>Nombre de Usuario</Text>
         <TextInput
           style={styles.input}
-          value={username}
-          onChangeText={(text) => setUsername(text)}
           placeholder="Ingrese su nombre de usuario"
         />
       </View>
@@ -21,8 +19,6 @@ export default function RegisterScreen() {
         <Text style={styles.label}>Correo Electrónico</Text>
         <TextInput
           style={styles.input}
-          value={email}
-          onChangeText={(text) => setEmail(text)}
           placeholder="Ingrese su correo electrónico"
           keyboardType="email-address"
         />
@@ -32,8 +28,6 @@ export default function RegisterScreen() {
         <Text style={styles.label}>Edad</Text>
         <TextInput
           style={styles.input}
-          value={age}
-          onChangeText={(text) => setAge(text)}
           placeholder="Ingrese su edad"
           keyboardType="numeric"
         />
@@ -43,19 +37,21 @@ export default function RegisterScreen() {
         <Text style={styles.label}>Contraseña</Text>
         <TextInput
           style={styles.input}
-          value={password}
-          onChangeText={(text) => setPassword(text)}
           secureTextEntry={true}
           placeholder="Ingrese su contraseña"
         />
       </View>
 
       <TouchableOpacity style={styles.registerButton}>
-        <Text style={styles.registerButtonText}>Confirmar Registro</Text>
+        <Text style={styles.registerButtonText}
+          onPress={() => navigation.navigate('HOMETAB')}
+        >Confirmar Registro</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.loginButton}>
-        <Text style={styles.loginButtonText}>Ir a Login</Text>
+        <Text style={styles.loginButtonText}
+          onPress={() => navigation.navigate('Login')}
+        > Ir a Login</Text>
       </TouchableOpacity>
     </View>
   );
@@ -83,7 +79,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   input: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#ccc',
     paddingVertical: 10,
     paddingHorizontal: 15,
