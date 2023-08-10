@@ -1,7 +1,43 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import * as FileSystem from 'expo-file-system'
 
-export default function RegisterScreen({ navigation }) {
+
+export default function RegistroScreen({ navigation }) {
+
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [age, setAge] = useState('');
+  const [password, setPassword] = useState('');
+  const [usuariosLis, setusuariosLis] = useState([]);
+  const [indiceE, setindiceE] = useState(-1)
+
+
+  function enviar() {
+
+    if (indiceE === -1) {
+      const nuevaLista = [...usuariosLis, { username, email, age, password }]
+      setusuariosLis(nuevaLista)
+    } else {
+      const nuevaLista = [...usuariosLis]
+      nuevaLista[indiceE] = { username, email, age, password }
+      setusuariosLis(nuevaLista)
+      setindiceE(-1)
+    }
+
+    guardar();
+
+  }
+
+  const guardar = async () => {
+    try {
+      const file = `${FileSystem.documentDirectory}usuarios.json`;
+      await FileSystem.writeAsStringAsync(file, JSON.stringify(usuariosLis));
+      console.log("Datos guardados")
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -12,6 +48,8 @@ export default function RegisterScreen({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder="Ingrese su nombre de usuario"
+          value={username}
+          onChangeText={setUsername}
         />
       </View>
 
@@ -21,6 +59,8 @@ export default function RegisterScreen({ navigation }) {
           style={styles.input}
           placeholder="Ingrese su correo electrónico"
           keyboardType="email-address"
+          value={email}
+          onChangeText={setEmail}
         />
       </View>
 
@@ -30,6 +70,8 @@ export default function RegisterScreen({ navigation }) {
           style={styles.input}
           placeholder="Ingrese su edad"
           keyboardType="numeric"
+          value={age}
+          onChangeText={setAge}
         />
       </View>
 
@@ -39,12 +81,14 @@ export default function RegisterScreen({ navigation }) {
           style={styles.input}
           secureTextEntry={true}
           placeholder="Ingrese su contraseña"
+          value={password}
+          onChangeText={setPassword}
         />
       </View>
 
       <TouchableOpacity style={styles.registerButton}>
         <Text style={styles.registerButtonText}
-          onPress={() => navigation.navigate('HOMETAB')}
+          onPress={() => enviar()}
         >Confirmar Registro</Text>
       </TouchableOpacity>
 

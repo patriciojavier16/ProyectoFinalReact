@@ -1,8 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, FlatList, Button, TouchableOpacity, Alert } from 'react-native';
+import * as FileSystem from 'expo-file-system'
 
-export default function CarritoScreen() {
+export default function CarritoScreen({route}) {
+
+    const {licores}=route.params;
+
 
     const [numero1, setnumero1] = useState(0)
 
@@ -44,9 +48,14 @@ export default function CarritoScreen() {
             <Text style={styles.txtCateg}>Mi Carrito</Text>
             <FlatList
 
-                data={datosLic}
+                data={licores}
+                keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                    <Text style={styles.txtCategor}>{item.name}</Text>
+                    <View style={styles.lista}>
+                        <Text>Nombre: {item.name}</Text>
+                        <Text>Descripción: {item.description}</Text>
+                        <Text>Precio: {item.precio}</Text>
+                    </View>
                 )}
             />
             <Text>{numero1}</Text>

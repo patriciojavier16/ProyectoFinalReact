@@ -1,12 +1,13 @@
-import { View, Text, StyleSheet, SectionList, Image, Alert, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, SectionList, Image, Button, Alert, FlatList, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import licoreriaJSON from '../assets/data/licoreria.json'
+import * as FileSystem from 'expo-file-system'
 
-export default function ProductosScreen() {
 
-    function mensaje() {
-        Alert.alert("Mensaje", " Producto Agregado correctamente")
-    }
+export default function ProductosScreen({ navigation }) {
+
+    const [licores, setlicores] = useState([])
+    const [cantidadMaxima, setCantidadMaxima] = useState(5);
 
     const datosLicores = licoreriaJSON;
     const secciones = [
@@ -14,6 +15,54 @@ export default function ProductosScreen() {
             title: 'Productos Ofertados', data: datosLicores.licores
         }
     ]
+
+    useEffect(() => {
+        cargar()
+    }, [])
+
+
+
+    function enviar(item) {
+
+        if (licores.length <= cantidadMaxima) {
+            setlicores([...licores, item])
+            setCantidadMaxima(cantidadMaxima - 1)
+            guardar();
+        } else {
+            Alert.alert("Mensaje", "No ce agregan mas productos")
+        }
+    }
+
+    const guardar = async () => {
+        try {
+            const file = `${FileSystem.documentDirectory}licoreria.json`;
+            await FileSystem.writeAsStringAsync(file, JSON.stringify(licores));
+            console.log("Datos guardados")
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const cargar = async () => {
+        try {
+            const file = `${FileSystem.documentDirectory}licoreria.json`;
+            const existe = await FileSystem.getInfoAsync(file)
+
+            if (existe.exists) {
+                const contenido = await FileSystem.readAsStringAsync(file);
+                const datos = JSON.parse(contenido)
+                setlicores(datos);
+                console.log("Datos cargados")
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    function navegarAlCarrito() {
+        navigation.navigate('Carrito', { licores }); // Pasa los licores al carrito
+    }
 
     return (
         <View style={styles.container}>
@@ -27,7 +76,8 @@ export default function ProductosScreen() {
                             <Image style={styles.img} source={{ uri: item.image }} />
                             <TouchableOpacity
                                 style={styles.button}
-                                onPress={mensaje}
+                                onPress={() => enviar(item)}
+
                             >
                                 <Text style={styles.buttonTxt}>Añadir al Carrito</Text>
                             </TouchableOpacity>
@@ -44,6 +94,14 @@ export default function ProductosScreen() {
                 }
 
             />
+            <View
+                style={{ borderWidth: 1, width: "90%", marginBottom: 10, marginTop: 10 }}
+            />
+
+
+            <View>
+                <Button title="Ver Carrito" onPress={navegarAlCarrito} />
+            </View>
         </View>
     )
 }

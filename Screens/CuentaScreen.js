@@ -2,6 +2,8 @@ import { View, Text, StyleSheet, Button, Image } from 'react-native'
 import React from 'react'
 
 export default function CuentaScreen() {
+
+
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Mi Cuenta</Text>
@@ -11,15 +13,15 @@ export default function CuentaScreen() {
             />
             <View style={styles.infoContainer}>
                 <Text style={styles.label}>Nombre:</Text>
-                <Text style={styles.info}>Mi nombre</Text>
+                <Text style={styles.info}></Text>
             </View>
             <View style={styles.infoContainer}>
                 <Text style={styles.label}>Correo Electrónico:</Text>
-                <Text style={styles.info}>Mi correo electrónico</Text>
+                <Text style={styles.info}></Text>
             </View>
             <View style={styles.infoContainer}>
                 <Text style={styles.label}>Fecha de Nacimiento:</Text>
-                <Text style={styles.info}>Mi fecha de nacimiento</Text>
+                <Text style={styles.info}></Text>
             </View>
             <Button title="Cerrar Sesión" onPress={() => alert('Sesión cerrada')} />
         </View >

@@ -1,7 +1,30 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet,Image, ImageBackground } from 'react-native';
+import { View, Text, Alert, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackground } from 'react-native';
+import * as FileSystem from 'expo-file-system'
+
 
 export default function LoginScreen({ navigation }) {
+
+    const [usuario, setuser] = useState('')
+    const [pass, setpass] = useState('')
+
+    const inicioSecion = async () => {
+        try {
+            const file = `${FileSystem.documentDirectory}usuarios.json`;
+            const fileContents = await FileSystem.readAsStringAsync(file);
+            const usuariosLis = JSON.parse(fileContents);
+            const user = usuariosLis.find(user => user.username === usuario && user.password === pass);
+
+            if (user) {
+                navigation.navigate('HOMETAB');
+            } else {
+                Alert.alert('Error', 'Credenciales incorrectas');
+            }
+        } catch (error) {
+            console.error('Error al leer el archivo de usuarios:', error);
+        }
+    }
+    console.log(usuario.pass)
 
     return (
         <ImageBackground style={styles.container}
@@ -15,6 +38,9 @@ export default function LoginScreen({ navigation }) {
                 <TextInput
                     placeholder='Ingrese Usuario'
                     style={styles.txtInput}
+                    onChangeText={(texto) => setuser(texto)}
+
+
                 />
             </View>
 
@@ -23,13 +49,20 @@ export default function LoginScreen({ navigation }) {
                 <TextInput
                     placeholder='Ingrese Password'
                     style={styles.txtInput} secureTextEntry
+                    onChangeText={(texto) => setpass(texto)}
+
                 />
             </View>
 
             <TouchableOpacity style={styles.loginButton}>
                 <Text style={styles.loginButtonText}
-                    onPress={() => navigation.navigate('Registro')}
+                    onPress={() => inicioSecion()}
                 >Iniciar Sesión</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.registroButton}>
+                <Text style={styles.loginButtonText}
+                    onPress={() => navigation.navigate('HOMETAB')}
+                >Registrate</Text>
             </TouchableOpacity>
         </ImageBackground>
     );
@@ -71,6 +104,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         borderRadius: 8,
     },
+    registroButton: {
+        backgroundColor: 'green',
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 8,
+        margin: 10
+    },
     loginButtonText: {
         color: 'white',
         fontSize: 18,
@@ -96,5 +136,5 @@ const styles = StyleSheet.create({
         width: 75,
         height: 75,
         margin: 15
-      },
+    },
 });
