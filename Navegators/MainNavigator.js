@@ -7,6 +7,12 @@ import RegistroScreen from "../Screens/RegistroScreen";
 import ProductosScreen from "../Screens/ProductosScreen";
 import CarritoScreen from "../Screens/CarritoScreen";
 import CuentaScreen from "../Screens/CuentaScreen"
+import { Entypo } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+
+
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -14,10 +20,43 @@ const Stack = createStackNavigator();
 function MyTabs() {
     return (
         <Tab.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
-            <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Productos" component={ProductosScreen} />
-            <Tab.Screen name="Carrito" component={CarritoScreen} />
-            <Tab.Screen name="Cuenta" component={CuentaScreen} />
+            <Tab.Screen name="Home" component={HomeScreen}
+                options={{
+                    tabBarLabel: 'Inicio',
+                    tabBarIcon: () => (
+                        <Entypo name="home" size={24} color="black" />
+                    ),
+                    headerTitle: 'Inicio'
+                }}
+            />
+            <Tab.Screen name="Productos" component={ProductosScreen}
+                options={{
+                    tabBarLabel: 'Inicio',
+                    tabBarIcon: () => (
+                        <Entypo name="shop" size={24} color="black" />
+
+                    ),
+                    headerTitle: 'Inicio'
+                }}
+            />
+            <Tab.Screen name="Carrito" component={CarritoScreen}
+                options={{
+                    tabBarLabel: 'Carrito',
+                    tabBarIcon: () => (
+                        <Entypo name="shopping-cart" size={24} color="black" />
+                    ),
+                    headerTitle: 'Carrito'
+                }}
+            />
+            <Tab.Screen name="Cuenta" component={CuentaScreen}
+                options={{
+                    tabBarLabel: 'Cuenta',
+                    tabBarIcon: () => (
+                        <FontAwesome name="user" size={24} color="black" />
+                    ),
+                    headerTitle: 'Cuenta'
+                }}
+            />
         </Tab.Navigator>
     )
 }
